@@ -13,8 +13,8 @@ public class TestController {
         return ResponseEntity.ok("hello-world");
     }
 
-    @GetMapping("/jenkins")
-    public ResponseEntity getHelloJenkins(){
-        return ResponseEntity.ok("hello-jenkins");
-    }
+//    @GetMapping("/jenkins")
+//    public ResponseEntity getHelloJenkins(){
+//        return ResponseEntity.ok("hello-jenkins");
+//    }
 }
