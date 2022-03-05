@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh "docker build -t longpc/demo-cicd-spring-pipeline:lastest"
+                sh "docker build -t longpc/demo-cicd-spring-pipeline ."
             }
         }
         stage('Test') {
