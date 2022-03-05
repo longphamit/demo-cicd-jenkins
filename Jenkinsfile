@@ -1,7 +1,8 @@
 pipeline {
-    agent any
+    agent {dockerfile true}
     tools {
-        maven 'maven 3.8.4'
+        maven 'maven 3.8.4',
+        docker 'docker'
     }
     stages {
         stage('Cloning git') {
@@ -9,9 +10,14 @@ pipeline {
                 git url: 'https://github.com/longphamit/demo-cicd-jenkins', credentialsId: 'github'
             }
         }
-        stage('Build') {
+        stage('Build Maven') {
             steps {
                 sh 'mvn clean install -DskipTests=true '
+            }
+        }
+        stage('Build Image') {
+            steps {
+                sh "docker build -t longpc/demo-cicd-spring-pipeline"
             }
         }
         stage('Test') {
@@ -19,9 +25,16 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') {
+        stage("Login dockerhub") {
             steps {
-                echo 'Deploying....'
+               withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh "docker login -u $user -p $pass"
+                }
+            }
+        }
+        stage("Push Image") {
+            steps {
+               sh "docker push longpc/demo-cicd-spring-pipeline"
             }
         }
     }
