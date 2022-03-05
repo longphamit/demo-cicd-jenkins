@@ -1,7 +1,7 @@
 pipeline {
     agent {dockerfile true}
     tools {
-        maven 'maven 3.8.4',
+        maven 'maven 3.8.4'
         docker 'docker'
     }
     stages {
@@ -29,7 +29,7 @@ pipeline {
             steps {
                withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "docker login -u $user -p $pass"
-                }
+               }
             }
         }
         stage("Push Image") {
